@@ -8,7 +8,7 @@
 
 
 /**
- * Handling unhandled errors from koa app. If user handles error by itself, 
+ * Handling unhandled errors from koa app. If user handles error by itself,
  * this function won't be called. Otherwise it will set to this.body err.message or
  * complete error if err.message is not present.
  *
@@ -25,8 +25,9 @@ function err(fn) {
       if (fn) {
         fn.call(this, err);
       } else {
+        console.log(err);
         this.app.emit('error', err, this);
-        this.status = err.status || 500;
+        this.status = err.status || err.cause.status || 500;
         this.body = err.message || err;
       }
     }
